@@ -1,0 +1,9 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import count
+
+spark = SparkSession.builder.getOrCreate()
+
+orders_count_df = orders.groupBy("customer_id").agg(count("*").alias("order_count")) \
+    .orderBy("order_count", ascending=False)
+
+orders_count_df.show()
