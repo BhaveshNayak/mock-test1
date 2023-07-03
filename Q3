@@ -1,0 +1,9 @@
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+df = spark.read.json("students.json")
+
+filtered_df = df.filter(df.age > 18)
+
+filtered_df.show()
