@@ -1,0 +1,10 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import sum
+
+spark = SparkSession.builder.getOrCreate()
+
+total_revenue_df = sales_data.groupBy("product_name").agg(sum("revenue").alias("total_revenue"))
+
+sorted_revenue_df = total_revenue_df.orderBy("total_revenue", ascending=False)
+
+sorted_revenue_df.show()
