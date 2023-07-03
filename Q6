@@ -1,0 +1,15 @@
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+customers.createOrReplaceTempView("Customers")
+
+query = """
+    SELECT *
+    FROM Customers
+    WHERE age > 25 AND customer_id IN (SELECT customer_id FROM Purchases)
+"""
+
+result = spark.sql(query)
+
+result.show()
