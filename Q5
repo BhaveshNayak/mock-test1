@@ -1,0 +1,11 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import window, hour, count
+spark = SparkSession.builder.getOrCreate()
+
+window_duration = "1 hour"
+
+event_count_df = logs.groupBy(window(logs.timestamp, window_duration).alias("hour_window")) \
+    .agg(hour(logs.timestamp).alias("hour"), count(logs.event).alias("event_count")) \
+    .orderBy("hour")
+
+event_count_df.show(truncate=False)
